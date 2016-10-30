@@ -15,5 +15,7 @@
     "azure-iothub": "^1.0.18"
 
   },
-"engine": "node 5.0.0"
+  "engines": {
+    "node": "5.0.0"
+  }
 }
