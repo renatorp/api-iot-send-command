@@ -14,16 +14,20 @@ var serviceClient = Client.fromConnectionString(connectionString);
 var sendmessage = function(callbackReturn) {
 
 function receiveFeedback(err, receiver){
+  /*if (err) {
+     callbackReturn(err);
+  }*/
+
   receiver.on('message', function (msg) {
     console.log('Feedback message:')
     console.log(msg.getData().toString('utf-8'));
-    callbackReturn(msg.getData().toString('utf-8'));
   });
 }
 
 serviceClient.open(function (err) {
   if (err) {
     console.error('Could not connect: ' + err.stack);
+    callbackReturn('Could not connect: ' + err.stack);
   } else {
     console.log('Service client connected');
     serviceClient.getFeedbackReceiver(receiveFeedback);
@@ -32,6 +36,7 @@ serviceClient.open(function (err) {
     message.messageId = "My Message ID";
     console.log('Sending message: ' + message.getData());
     serviceClient.send(targetDevice, message, printResultFor('send'));
+    callbackReturn("Message successfully sent to device.");
   }
 });
 };
